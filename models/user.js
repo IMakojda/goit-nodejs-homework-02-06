@@ -18,7 +18,7 @@ const schema = new Schema(
       default: "starter"
     },
     token: String
-  }
+  }, { timestamps: true }
 )
 
 const User = model('user', schema);
@@ -30,11 +30,17 @@ const schemaRegister = Joi.object({
   token: Joi.string(),
 });
 
+const schemaLogin = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+
+});
 
 
 module.exports = {
   User,
-  schemaRegister
+  schemaRegister,
+  schemaLogin
 };
 
 
