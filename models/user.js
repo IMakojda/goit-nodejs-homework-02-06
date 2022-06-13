@@ -17,7 +17,10 @@ const schema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter"
     },
-    token: String
+    token: {
+      type: String,
+      default: null,
+    }
   }, { timestamps: true }
 )
 
@@ -33,14 +36,17 @@ const schemaRegister = Joi.object({
 const schemaLogin = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-
 });
 
+const schemaPatchSubscr = Joi.object({
+  subscription: Joi.string().valid("starter", "pro", "business").required(),
+});
 
 module.exports = {
   User,
   schemaRegister,
-  schemaLogin
+  schemaLogin,
+  schemaPatchSubscr
 };
 
 
