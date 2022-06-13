@@ -2,14 +2,11 @@ const { Contact } = require('../models/contacts');
 
 const listContacts = async (query) => {
   const { page, limit, favorite } = query;
-  console.log(query);
   const skipped = (page - 1) * limit;
   const skip = skipped < 0 ? 0 : skipped;
   if (favorite) { return Contact.find({ favorite }, {}, { skip, limit: +limit }); }
   else
     return Contact.find({}, {}, { skip, limit: +limit });
-
-
 }
 
 const getContactById = async (contactId) => {
