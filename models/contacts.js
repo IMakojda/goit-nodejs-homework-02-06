@@ -18,6 +18,11 @@ const schema = new Schema({
     type: Boolean,
     default: false,
   },
+  owner: {
+    ref: 'user',
+    type: Schema.Types.ObjectId,
+    required: true,
+  }
 })
 
 const schemaCreate = Joi.object({

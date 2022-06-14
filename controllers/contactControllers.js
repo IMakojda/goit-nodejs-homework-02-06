@@ -1,8 +1,8 @@
-const contactService = require('../services');
+const { contactService } = require('../services');
 
 const getAll = async (req, res, next) => {
   try {
-    const all = await contactService.listContacts();
+    const all = await contactService.listContacts(req.query);
     res.json(all);
   } catch (e) {
     next(e);
@@ -26,7 +26,8 @@ const getById = async (req, res, next) => {
 
 const createContact = async (req, res, next) => {
   try {
-    const newContact = await contactService.addContact(req.body);
+    const id = req.user._id;
+    const newContact = await contactService.addContact(req.body, id);
     return res.status(201).json(newContact)
   } catch (e) {
     next(e)
