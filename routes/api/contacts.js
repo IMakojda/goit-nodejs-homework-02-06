@@ -14,7 +14,7 @@ const {
   createContact,
   updateById,
   updateStatusContact
-} = require('../../controllers/contactControllers');
+} = require('../../controllers');
 
 const { auth } = require('../../midleware/auth');
 
