@@ -2,8 +2,6 @@ const multer = require('multer');
 const { createError } = require('../errors');
 const { TEMP_DIR } = require('../helpers/consts');
 
-
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, TEMP_DIR)
@@ -24,7 +22,6 @@ const upload = multer({
   },
   limits: {
     fieldNameSize: 100,
-    fileSize: 5000000,
   }
 })
 

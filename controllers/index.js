@@ -3,7 +3,8 @@ const {
   loginUser,
   logoutUser,
   currentUser,
-  updatUser } = require('./authControllers');
+  updatUser,
+  updatUserImg } = require('./authControllers');
 
 const {
   getAll,
@@ -27,4 +28,5 @@ module.exports = {
   createContact,
   updateById,
   updateStatusContact,
+  updatUserImg
 }
