@@ -1,13 +1,17 @@
-const { authService } = require('../services/index')
+const { uploadImage } = require('../services/imageService');
+const { authService } = require('../services/index');
+const { updateUserImage } = require('../services/userServiceImage');
 
 const registerUser = async (req, res, next) => {
 
   try {
-    const user = await authService.registerUser(req.body);
-    res.status(201).json({
+    const user = await authService.registerUserServ(req.body);
+    return res.status(201).json({
+      code: 201,
       "user": {
         email: user.email,
         subscription: user.subscription,
+        avatarUrl: user.avatarUrl,
       }
     })
   } catch (err) {
@@ -17,8 +21,11 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   try {
-    const token = await authService.loginUser(req.body);
-    res.json(token);
+    const token = await authService.loginUserServ(req.body);
+    return res.json({
+      code: 200,
+      data: token
+    });
   } catch (err) {
     next(err)
   }
@@ -27,7 +34,7 @@ const loginUser = async (req, res, next) => {
 const logoutUser = async (req, res, next) => {
   const id = req.user._id;
   try {
-    await authService.logoutUser(id);
+    await authService.logoutUserServ(id);
     res.sendStatus(204)
   } catch (err) {
     next(err)
@@ -46,7 +53,7 @@ const currentUser = async (req, res, next) => {
 const updatUser = async (req, res, next) => {
   const id = req.user;
   try {
-    const upadateUser = await authService.updatUserSub(id, req.body);
+    const upadateUser = await authService.updatUserSubServ(id, req.body);
     if (!upadateUser) {
       res.status(404).json({ message: "Not found" })
     } else {
@@ -57,10 +64,23 @@ const updatUser = async (req, res, next) => {
   }
 }
 
+const updatUserImg = async (req, res, next) => {
+  const { _id: id } = req.user;
+  try {
+    const avatarUrl = await uploadImage(id, req.file);
+    const user = await updateUserImage(id, { avatarUrl });
+    res.json(user);
+  } catch (err) {
+    next(err)
+  }
+}
+
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   currentUser,
-  updatUser
+  updatUser,
+  updatUserImg,
 }

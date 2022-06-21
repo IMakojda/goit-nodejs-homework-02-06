@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = require('../helpers/env');
 
-const registerUser = async (userData) => {
+const registerUserServ = async (userData) => {
   const result = await User.findOne({ email: userData.email });
 
   if (result) {
@@ -23,7 +23,7 @@ const registerUser = async (userData) => {
   return user;
 }
 
-const loginUser = async ({ email, password }) => {
+const loginUserServ = async ({ email, password }) => {
   const user = await User.findOne({ email })
 
   if (!user) {
@@ -50,7 +50,7 @@ const loginUser = async ({ email, password }) => {
   };
 }
 
-const authenticateUser = async (token) => {
+const authenticateUserServ = async (token) => {
   try {
     const payload = jwt.verify(token, SECRET_KEY);
     const { id } = payload;
@@ -61,17 +61,17 @@ const authenticateUser = async (token) => {
   }
 }
 
-const logoutUser = async (id) => {
+const logoutUserServ = async (id) => {
   await User.findByIdAndUpdate(id, { token: null })
 }
 
-const updatUserSub = async (id, body) => {
+const updatUserSubServ = async (id, body) => {
   return User.findByIdAndUpdate(id, body, { new: true })
 }
 module.exports = {
-  registerUser,
-  loginUser,
-  authenticateUser,
-  logoutUser,
-  updatUserSub
+  registerUserServ,
+  loginUserServ,
+  authenticateUserServ,
+  logoutUserServ,
+  updatUserSubServ
 }
