@@ -1,6 +1,6 @@
 const authControllers = require('./authControllers');
 const authService = require('../services/authService')
-
+const emailService = require('../services/email.service')
 describe('Auth Controller', () => {
   describe('Register', () => {
     test('New user should refister with email', async () => {
@@ -8,6 +8,7 @@ describe('Auth Controller', () => {
       let next = jest.fn();
 
       authService.registerUserServ = jest.fn((data) => data);
+      emailService.sendEmail = jest.fn();
       const req = {
         body: {
           email: 'ambasador@gmail.com',
